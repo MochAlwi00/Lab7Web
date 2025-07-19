@@ -1,870 +1,614 @@
-# Panduan Praktikum CodeIgniter 4 - Framework PHP
-
-[![CodeIgniter](https://img.shields.io/badge/CodeIgniter-4.x-orange.svg)](https://codeigniter.com/)
-[![PHP](https://img.shields.io/badge/PHP-7.4%2B-blue.svg)](https://php.net/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-
-## 📋 Daftar Isi
-
-- [Lab 1: Pengenalan Framework CodeIgniter](#lab-1-pengenalan-framework-codeigniter)
-- [Lab 2: Operasi CRUD dengan Database](#lab-2-operasi-crud-dengan-database)
-- [Lab 3: Template Layout dan Komponen View](#lab-3-template-layout-dan-komponen-view)
-- [Lab 4: Sistem Autentikasi](#lab-4-sistem-autentikasi)
-- [Lab 5: Pagination dan Search System](#lab-5-pagination-dan-search-system)
-- [Lab 6: File Upload Management](#lab-6-file-upload-management)
-- [Lab 7: Database Relations dan Query Builder](#lab-7-database-relations-dan-query-builder)
-- [Lab 8: AJAX Integration](#lab-8-ajax-integration)
-- [Lab 9: Advanced AJAX Features](#lab-9-advanced-ajax-features)
-- [Lab 10: REST API Development](#lab-10-rest-api-development)
-
-## 🎯 Tujuan Pembelajaran
-
-Setelah menyelesaikan praktikum ini, mahasiswa diharapkan mampu:
-- Memahami konsep MVC (Model-View-Controller) dalam CodeIgniter 4
-- Mengimplementasikan operasi CRUD dengan database
-- Menerapkan sistem autentikasi dan autorisasi
-- Menggunakan AJAX untuk interaksi dinamis
-- Membangun REST API yang RESTful
-- Mengelola file upload dan relasi database
-
-## ⚙️ Persyaratan Sistem
-
-- PHP 7.4 atau lebih tinggi
-- Composer
-- MySQL/MariaDB
-- Web Server (Apache/Nginx)
-- Browser modern dengan developer tools
-- Postman (untuk testing API)
-
----
-
-## Lab 1: Pengenalan Framework CodeIgniter
-
-### 🎯 Objective
-Memahami struktur dasar CodeIgniter 4 dan implementasi pattern MVC.
-
-### 📝 Langkah-langkah
-
-#### A. Setup Awal
-
-1. **Aktivasi Extension PHP**
-   ```bash
-   # Pastikan extension berikut aktif di php.ini:
-   extension=intl
-   extension=mbstring
-   extension=mysqli
-   extension=curl
-   ```
-   ![Setup Extensions](screenshots/1.png)
-
-2. **Download dan Instalasi CodeIgniter 4**
-   ```bash
-   composer create-project codeigniter4/appstarter lab_ci4
-   cd lab_ci4
-   ```
-   ![Download CodeIgniter](screenshots/2.png)
-
-3. **Konfigurasi Environment**
-   ```bash
-   # Rename file env menjadi .env
-   cp env .env
-   
-   # Edit .env file
-   CI_ENVIRONMENT = development
-   ```
-   ![Environment Config](screenshots/4.png)
-
-4. **Menjalankan Development Server**
-   ```bash
-   php spark serve
-   ```
-   ![CLI Usage](screenshots/3.png)
-
-#### B. Implementasi MVC Pattern
-
-1. **Konfigurasi Routing** (`app/Config/Routes.php`)
-   ```php
-   <?php
-   $routes->get('/', 'Home::index');
-   $routes->get('/about', 'Page::about');
-   $routes->get('/contact', 'Page::contact');
-   $routes->get('/faq', 'Page::faq');
-   $routes->get('/tos', 'Page::tos');
-   ```
-   ![Routes Configuration](screenshots/5.png)
-
-2. **Pembuatan Controller** (`app/Controllers/Page.php`)
-   ```php
-   <?php
-
-   namespace App\Controllers;
-
-   class Page extends BaseController
-   {
-       public function about()
-       {
-           return view('about', [
-               'title' => 'Halaman About'
-           ]);
-       }
-
-       public function contact()
-       {
-           return view('contact', [
-               'title' => 'Halaman Kontak'
-           ]);
-       }
-
-       public function faq()
-       {
-           return view('faq', [
-               'title' => 'FAQ'
-           ]);
-       }
-
-       public function tos()
-       {
-           return view('tos', [
-               'title' => 'Terms of Service'
-           ]);
-       }
-   }
-   ```
-   ![Controller Creation](screenshots/6.png)
-
-3. **Pembuatan View Template**
-
-   **Header Template** (`app/Views/template/header.php`)
-   ```php
-   <!DOCTYPE html>
-   <html lang="id">
-   <head>
-       <meta charset="UTF-8">
-       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-       <title><?= $title ?? 'CodeIgniter 4' ?></title>
-       <link rel="stylesheet" href="<?= base_url('css/style.css') ?>">
-   </head>
-   <body>
-       <nav class="navbar">
-           <div class="nav-container">
-               <a href="<?= base_url('/') ?>" class="nav-logo">Lab CI4</a>
-               <ul class="nav-menu">
-                   <li><a href="<?= base_url('/') ?>">Home</a></li>
-                   <li><a href="<?= base_url('/about') ?>">About</a></li>
-                   <li><a href="<?= base_url('/contact') ?>">Contact</a></li>
-                   <li><a href="<?= base_url('/faq') ?>">FAQ</a></li>
-                   <li><a href="<?= base_url('/tos') ?>">Terms</a></li>
-               </ul>
-           </div>
-       </nav>
-   ```
-
-   **Footer Template** (`app/Views/template/footer.php`)
-   ```php
-       <footer class="footer">
-           <div class="container">
-               <p>&copy; <?= date('Y') ?> Lab CodeIgniter 4. All rights reserved.</p>
-           </div>
-       </footer>
-   </body>
-   </html>
-   ```
-
-4. **View Pages**
-   
-   **About Page** (`app/Views/about.php`)
-   ```php
-   <?= $this->include('template/header') ?>
-
-   <main class="main-content">
-       <div class="container">
-           <h1><?= $title ?></h1>
-           <div class="content-section">
-               <p>Ini adalah halaman about yang menjelaskan tentang aplikasi CodeIgniter 4.</p>
-               <ul>
-                   <li>Framework: CodeIgniter 4</li>
-                   <li>PHP Version: <?= PHP_VERSION ?></li>
-                   <li>Environment: <?= ENVIRONMENT ?></li>
-               </ul>
-           </div>
-       </div>
-   </main>
-
-   <?= $this->include('template/footer') ?>
-   ```
-
-### 📊 Hasil Lab 1
-- ✅ Setup environment berhasil
-- ✅ Routing konfigurasi selesai
-- ✅ Controller dan View terintegrasi
-- ✅ Template system implementasi
-- ✅ Navigasi menu berfungsi
-
-![Final Result Lab 1](screenshots/14.png)
-
----
-
-## Lab 2: Operasi CRUD dengan Database
-
-### 🎯 Objective
-Mengimplementasikan operasi Create, Read, Update, Delete dengan database MySQL.
-
-### 🗄️ Setup Database
-
-1. **Buat Database**
-   ```sql
-   CREATE DATABASE lab_ci4;
-   USE lab_ci4;
-   
-   CREATE TABLE artikel (
-       id INT(11) AUTO_INCREMENT PRIMARY KEY,
-       judul VARCHAR(200) NOT NULL,
-       isi TEXT NOT NULL,
-       gambar VARCHAR(200),
-       status TINYINT(1) DEFAULT 1,
-       slug VARCHAR(200),
-       created_at DATETIME,
-       updated_at DATETIME
-   );
-   ```
-   ![Database Creation](screenshots/praktikum2/1.png)
-
-2. **Konfigurasi Database** (`.env`)
-   ```env
-   database.default.hostname = localhost
-   database.default.database = lab_ci4
-   database.default.username = root
-   database.default.password = 
-   database.default.DBDriver = MySQLi
-   ```
-   ![Database Configuration](screenshots/praktikum2/2.png)
-
-### 📋 Implementasi Model
-
-**ArtikelModel** (`app/Models/ArtikelModel.php`)
-```php
-<?php
-
-namespace App\Models;
-
-use CodeIgniter\Model;
-
-class ArtikelModel extends Model
-{
-    protected $table = 'artikel';
-    protected $primaryKey = 'id';
-    protected $allowedFields = ['judul', 'isi', 'gambar', 'status', 'slug'];
-    protected $useTimestamps = true;
-
-    // Method untuk mendapatkan artikel yang published
-    public function getPublishedArtikel()
-    {
-        return $this->where('status', 1)->findAll();
-    }
-
-    // Method untuk mendapatkan artikel by slug
-    public function getArtikelBySlug($slug)
-    {
-        return $this->where('slug', $slug)->first();
-    }
-}
-```
-![Model Creation](screenshots/praktikum2/3.png)
-
-### 🎮 Controller Development
-
-**ArtikelController** (`app/Controllers/Artikel.php`)
-```php
-<?php
-
-namespace App\Controllers;
-
-use App\Models\ArtikelModel;
-use CodeIgniter\Exceptions\PageNotFoundException;
-
-class Artikel extends BaseController
-{
-    protected $artikelModel;
-
-    public function __construct()
-    {
-        $this->artikelModel = new ArtikelModel();
-    }
-
-    public function index()
-    {
-        $data = [
-            'title' => 'Daftar Artikel',
-            'artikel' => $this->artikelModel->getPublishedArtikel()
-        ];
-
-        return view('artikel/index', $data);
-    }
-
-    public function view($slug)
-    {
-        $artikel = $this->artikelModel->getArtikelBySlug($slug);
-        
-        if (!$artikel) {
-            throw PageNotFoundException::forPageNotFound();
-        }
-
-        $data = [
-            'title' => $artikel['judul'],
-            'artikel' => $artikel
-        ];
-
-        return view('artikel/detail', $data);
-    }
-
-    public function admin_index()
-    {
-        $data = [
-            'title' => 'Kelola Artikel',
-            'artikel' => $this->artikelModel->findAll()
-        ];
-
-        return view('artikel/admin_index', $data);
-    }
-
-    public function add()
-    {
-        if ($this->request->getMethod() === 'post') {
-            $validation = \Config\Services::validation();
-            
-            $validation->setRules([
-                'judul' => 'required|min_length[10]',
-                'isi' => 'required|min_length[20]'
-            ]);
-
-            if ($validation->withRequest($this->request)->run()) {
-                $slug = url_title($this->request->getPost('judul'), '-', true);
-                
-                $this->artikelModel->insert([
-                    'judul' => $this->request->getPost('judul'),
-                    'isi' => $this->request->getPost('isi'),
-                    'slug' => $slug,
-                    'status' => $this->request->getPost('status') ? 1 : 0
-                ]);
-
-                return redirect()->to('/artikel/admin')->with('success', 'Artikel berhasil ditambahkan');
-            }
-        }
-
-        $data = [
-            'title' => 'Tambah Artikel',
-            'validation' => \Config\Services::validation()
-        ];
-
-        return view('artikel/form_add', $data);
-    }
-
-    public function edit($id)
-    {
-        $artikel = $this->artikelModel->find($id);
-        
-        if (!$artikel) {
-            throw PageNotFoundException::forPageNotFound();
-        }
-
-        if ($this->request->getMethod() === 'post') {
-            $validation = \Config\Services::validation();
-            
-            $validation->setRules([
-                'judul' => 'required|min_length[10]',
-                'isi' => 'required|min_length[20]'
-            ]);
-
-            if ($validation->withRequest($this->request)->run()) {
-                $slug = url_title($this->request->getPost('judul'), '-', true);
-                
-                $this->artikelModel->update($id, [
-                    'judul' => $this->request->getPost('judul'),
-                    'isi' => $this->request->getPost('isi'),
-                    'slug' => $slug,
-                    'status' => $this->request->getPost('status') ? 1 : 0
-                ]);
-
-                return redirect()->to('/artikel/admin')->with('success', 'Artikel berhasil diupdate');
-            }
-        }
-
-        $data = [
-            'title' => 'Edit Artikel',
-            'artikel' => $artikel,
-            'validation' => \Config\Services::validation()
-        ];
-
-        return view('artikel/form_edit', $data);
-    }
-
-    public function delete($id)
-    {
-        $artikel = $this->artikelModel->find($id);
-        
-        if (!$artikel) {
-            throw PageNotFoundException::forPageNotFound();
-        }
-
-        $this->artikelModel->delete($id);
-        
-        return redirect()->to('/artikel/admin')->with('success', 'Artikel berhasil dihapus');
-    }
-}
-```
-
-### 🎨 View Implementation
-
-**Admin Index** (`app/Views/artikel/admin_index.php`)
-```php
-<?= $this->include('template/header') ?>
-
-<main class="main-content">
-    <div class="container">
-        <div class="admin-header">
-            <h1><?= $title ?></h1>
-            <a href="<?= base_url('/artikel/add') ?>" class="btn btn-primary">
-                <i class="fas fa-plus"></i> Tambah Artikel
-            </a>
-        </div>
-
-        <?php if (session()->getFlashdata('success')): ?>
-            <div class="alert alert-success">
-                <?= session()->getFlashdata('success') ?>
-            </div>
-        <?php endif; ?>
-
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Judul</th>
-                        <th>Status</th>
-                        <th>Created</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (!empty($artikel)): ?>
-                        <?php foreach ($artikel as $key => $item): ?>
-                            <tr>
-                                <td><?= $key + 1 ?></td>
-                                <td>
-                                    <strong><?= esc($item['judul']) ?></strong>
-                                    <br>
-                                    <small class="text-muted"><?= esc($item['slug']) ?></small>
-                                </td>
-                                <td>
-                                    <span class="badge <?= $item['status'] ? 'badge-success' : 'badge-warning' ?>">
-                                        <?= $item['status'] ? 'Published' : 'Draft' ?>
-                                    </span>
-                                </td>
-                                <td><?= date('d M Y H:i', strtotime($item['created_at'])) ?></td>
-                                <td>
-                                    <div class="btn-group">
-                                        <a href="<?= base_url('/artikel/' . $item['slug']) ?>" class="btn btn-sm btn-info" target="_blank">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
-                                        <a href="<?= base_url('/artikel/edit/' . $item['id']) ?>" class="btn btn-sm btn-warning">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <a href="<?= base_url('/artikel/delete/' . $item['id']) ?>" class="btn btn-sm btn-danger" 
-                                           onclick="return confirm('Yakin ingin menghapus artikel ini?')">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <tr>
-                            <td colspan="5" class="text-center">Belum ada artikel</td>
-                        </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</main>
-
-<?= $this->include('template/footer') ?>
-```
-
-### 🎨 CSS Enhancement
-
-**Style CSS** (`public/css/admin.css`)
-```css
-/* Admin Panel Styling */
-.admin-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid #e9ecef;
-}
-
-.table-responsive {
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    overflow: hidden;
-}
-
-.table {
-    margin-bottom: 0;
-}
-
-.table th {
-    background-color: #f8f9fa;
-    font-weight: 600;
-    border: none;
-    padding: 1rem;
-}
-
-.table td {
-    padding: 1rem;
-    vertical-align: middle;
-}
-
-.btn {
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    text-decoration: none;
-    display: inline-block;
-    font-weight: 500;
-    text-align: center;
-    transition: all 0.2s;
-}
-
-.btn-primary {
-    background-color: #007bff;
-    color: white;
-    border: 1px solid #007bff;
-}
-
-.btn-primary:hover {
-    background-color: #0056b3;
-}
-
-.badge {
-    padding: 0.25em 0.6em;
-    font-size: 0.75em;
-    font-weight: 500;
-    border-radius: 0.375rem;
-}
-
-.badge-success {
-    background-color: #28a745;
-    color: white;
-}
-
-.badge-warning {
-    background-color: #ffc107;
-    color: #212529;
-}
-
-.alert {
-    padding: 0.75rem 1.25rem;
-    margin-bottom: 1rem;
-    border: 1px solid transparent;
-    border-radius: 0.375rem;
-}
-
-.alert-success {
-    color: #155724;
-    background-color: #d4edda;
-    border-color: #c3e6cb;
-}
-```
-
-### 🚀 Fitur Enhancement
-
-1. **Upload Gambar**
-2. **Pencarian Artikel**
-3. **Filter Status**
-4. **Bulk Actions**
-
-### 📊 Hasil Lab 2
-![Final Result 1](screenshots/praktikum2/ss1.png)
-![Final Result 2](screenshots/praktikum2/ss2.png)
-![Final Result 3](screenshots/praktikum2/ss3.png)
-
----
-
-## Lab 3: Template Layout dan Komponen View
-
-### 🎯 Objective
-Mengimplementasikan sistem template layout terpusat dan komponen view yang reusable.
-
-### 🏗️ Arsitektur Layout
-
-**Main Layout** (`app/Views/layout/main.php`)
-```php
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title ?? 'CodeIgniter 4' ?></title>
-    <link rel="stylesheet" href="<?= base_url('css/bootstrap.min.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('css/style.css') ?>">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <?= $this->renderSection('head') ?>
-</head>
-<body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
-            <a class="navbar-brand" href="<?= base_url('/') ?>">
-                <i class="fas fa-newspaper"></i> Portal Berita
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= base_url('/') ?>">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= base_url('/artikel') ?>">Artikel</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= base_url('/about') ?>">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= base_url('/contact') ?>">Contact</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= base_url('/admin') ?>">
-                            <i class="fas fa-user-shield"></i> Admin
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Main Content -->
-    <main class="main-content">
-        <?= $this->renderSection('content') ?>
-    </main>
-
-    <!-- Sidebar untuk artikel terkini -->
-    <?php if (!empty($showSidebar)): ?>
-        <aside class="sidebar">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-4">
-                        <?= view_cell('ArtikelTerkini::render', ['limit' => 5]) ?>
-                    </div>
-                </div>
-            </div>
-        </aside>
-    <?php endif; ?>
-
-    <!-- Footer -->
-    <footer class="bg-dark text-light py-4 mt-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <h5>Portal Berita CodeIgniter 4</h5>
-                    <p>Platform berita modern dengan teknologi terdepan.</p>
-                </div>
-                <div class="col-md-6 text-md-end">
-                    <p>&copy; <?= date('Y') ?> All rights reserved.</p>
-                    <div class="social-links">
-                        <a href="#" class="text-light me-3"><i class="fab fa-facebook"></i></a>
-                        <a href="#" class="text-light me-3"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-light"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script src="<?= base_url('js/bootstrap.bundle.min.js') ?>"></script>
-    <?= $this->renderSection('scripts') ?>
-</body>
-</html>
-```
-
-### 🧩 View Cell Implementation
-
-**ArtikelTerkini View Cell** (`app/Cells/ArtikelTerkini.php`)
-```php
-<?php
-
-namespace App\Cells;
-
-use CodeIgniter\View\Cells\Cell;
-use App\Models\ArtikelModel;
-
-class ArtikelTerkini extends Cell
-{
-    protected $artikelModel;
-
-    public function __construct()
-    {
-        $this->artikelModel = new ArtikelModel();
-    }
-
-    public function render(array $params = []): string
-    {
-        $limit = $params['limit'] ?? 5;
-        $kategori = $params['kategori'] ?? null;
-
-        $query = $this->artikelModel->where('status', 1)
-                                   ->orderBy('created_at', 'DESC');
-
-        if ($kategori) {
-            $query->where('kategori', $kategori);
-        }
-
-        $artikel = $query->limit($limit)->findAll();
-
-        return view('components/artikel_terkini', [
-            'artikel' => $artikel,
-            'title' => $kategori ? "Artikel {$kategori} Terkini" : 'Artikel Terkini'
-        ]);
-    }
-}
-```
-
-**View Component** (`app/Views/components/artikel_terkini.php`)
-```php
-<div class="card">
-    <div class="card-header">
-        <h5 class="card-title mb-0">
-            <i class="fas fa-clock"></i> <?= $title ?>
-        </h5>
-    </div>
-    <div class="card-body">
-        <?php if (!empty($artikel)): ?>
-            <div class="list-group list-group-flush">
-                <?php foreach ($artikel as $item): ?>
-                    <div class="list-group-item border-0 px-0">
-                        <div class="d-flex">
-                            <?php if (!empty($item['gambar'])): ?>
-                                <img src="<?= base_url('uploads/' . $item['gambar']) ?>" 
-                                     alt="<?= esc($item['judul']) ?>"
-                                     class="rounded me-3" style="width: 60px; height: 60px; object-fit: cover;">
-                            <?php endif; ?>
-                            <div class="flex-grow-1">
-                                <a href="<?= base_url('/artikel/' . $item['slug']) ?>" 
-                                   class="text-decoration-none">
-                                    <h6 class="mb-1"><?= esc($item['judul']) ?></h6>
-                                </a>
-                                <small class="text-muted">
-                                    <i class="fas fa-calendar-alt"></i>
-                                    <?= date('d M Y', strtotime($item['created_at'])) ?>
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        <?php else: ?>
-            <p class="text-muted">Belum ada artikel.</p>
-        <?php endif; ?>
-    </div>
-</div>
-```
-
-### 📊 Database Enhancement
+# Praktikum 1: PHP Framework (CodeIgniter)
+
+## Langkah-langkah Praktikum
+
+### 1. Persiapan
+
+- Mengaktifkan ekstensi PHP yang dibutuhkan
+  ![Gambar 1](screenshots/1.png)
+
+### 2. Instalasi CodeIgniter 4
+
+- Mengunduh dan mengekstrak CodeIgniter 4
+  ![Gambar 2](screenshots/2.png)
+
+### 3. Menjalankan CLI
+
+- Menggunakan Command Line Interface
+  ![Gambar 3](screenshots/3.png)
+
+### 4. Mengaktifkan Mode Debugging
+
+- Mengubah file env menjadi .env
+  ![Gambar 4](screenshots/4.png)
+
+### 5. Membuat Route Baru
+
+- Menambahkan route di Routes.php
+  ![Gambar 5](screenshots/5.png)
+
+### 6. Membuat Controller
+
+- Membuat file Page.php
+  ![Gambar 6](screenshots/6.png)
+
+### 7. Membuat View
+
+- Membuat file about.php
+  ![Gambar 7](screenshots/7.png)
+
+### 8. Membuat Layout Web dengan CSS
+
+- Membuat template header dan footer
+  ![Gambar 81](screenshots/81.png)
+  ![Gambar 82](screenshots/82.png)
+  ![Gambar 83](screenshots/83.png)
+
+## Pertanyaan dan Tugas
+
+Saya telah melengkapi kode program untuk menu lainnya yang ada pada Controller Page, sehingga semua link pada navigasi header dapat menampilkan tampilan dengan layout yang sama.
+
+- Halaman About
+  ![Gambar 9](screenshots/9.png)
+
+- Halaman Contact
+  ![Gambar 10](screenshots/10.png)
+
+- Halaman FAQ
+  ![Gambar 11](screenshots/11.png)
+
+- Halaman Terms of Service
+  ![Gambar 12](screenshots/12.png)
+
+- Modifikasi file page.php
+  ![Gambar 13](screenshots/13.png)
+
+## Hasil Akhir Praktikum 1
+
+![Gambar 14](screenshots/14.png)
+
+# Praktikum 2: Framework Lanjutan (CRUD)
+
+## Langkah-langkah Praktikum
+
+### 1. Membuat Database
+
+- Membuat database lab_ci4 dan tabel artikel
+  ![Gambar 1](screenshots/praktikum2/1.png)
+
+### 2. Konfigurasi Koneksi Database
+
+- Mengkonfigurasi file .env
+  ![Gambar 2](screenshots/praktikum2/2.png)
+
+### 3. Membuat Model
+
+- Membuat file ArtikelModel.php
+  ![Gambar 3](screenshots/praktikum2/3.png)
+
+### 4. Membuat Controller
+
+- Membuat file Artikel.php
+  ![Gambar 4](screenshots/praktikum2/4.png)
+
+### 5. Membuat View
+
+- Membuat file index.php di folder artikel
+  ![Gambar 5](screenshots/praktikum2/5.png)
+
+### 6. Menambahkan Data Artikel
+
+- Menambahkan data artikel melalui SQL
+  ![Gambar 6](screenshots/praktikum2/6.png)
+
+### 7. Membuat Tampilan Detail Artikel, Membuat Routing untuk artikel detail
+
+- Membuat method view() di index.php dan file detail.php
+  ![Gambar 71](screenshots/praktikum2/71.png)
+  ![Gambar 72](screenshots/praktikum2/72.png)
+  ![Gambar 73](screenshots/praktikum2/73.png)
+
+### 8. Membuat Menu Admin
+
+- Membuat method admin_index() dan file admin_index.php
+  ![Gambar 81](screenshots/praktikum2/81.png)
+  ![Gambar 82](screenshots/praktikum2/82.png)
+  ![Gambar 83](screenshots/praktikum2/83.png)
+  ![Gambar 84](screenshots/praktikum2/84.png)
+  ![Gambar 85](screenshots/praktikum2/85.png)
+
+### 9. Menambah Data Artikel
+
+- Membuat method add() dan file form_add.php
+  ![Gambar 91](screenshots/praktikum2/91.png)
+  ![Gambar 92](screenshots/praktikum2/92.png)
+
+### 10. Mengubah Data
+
+- Membuat method edit() dan file form_edit.php
+  ![Gambar 101](screenshots/praktikum2/101.png)
+  ![Gambar 102](screenshots/praktikum2/102.png)
+
+### 11. Menghapus Data
+
+- Membuat method delete()
+  ![Gambar 11](screenshots/praktikum2/11.png)
+
+## Improvisasi yang Dilakukan
+
+1. Menambahkan CSS untuk Admin Panel
+   ![Gambar 12](screenshots/praktikum2/css.png)
+2. Menambahkan Fitur Upload Gambar
+   ![Gambar 13](screenshots/praktikum2/fitur1.png)
+3. Menambahkan Fitur Pencarian Artikel
+   ![Gambar 14](screenshots/praktikum2/fitur2.png)
+
+## Hasil akhir Praktikum 2
+
+![Gambar 15](screenshots/praktikum2/ss1.png)
+![Gambar 16](screenshots/praktikum2/ss2.png)
+![Gambar 17](screenshots/praktikum2/ss3.png)
+
+# Praktikum 3: View Layout dan View Cell
+
+## Langkah-langkah Praktikum
+
+### 1. Membuat Layout Utama
+
+- Membuat folder layout dan file main.php
+  ![Gambar 1](screenshots/praktikum3/1.png)
+
+### 2. Modifikasi File View
+
+- Mengubah file home.php, about.php, contact.php, index.php, detail.php untuk menggunakan layout baru
+  ![Gambar 21](screenshots/praktikum3/21.png)
+  ![Gambar 22](screenshots/praktikum3/22.png)
+  ![Gambar 23](screenshots/praktikum3/23.png)
+  ![Gambar 24](screenshots/praktikum3/24.png)
+  ![Gambar 25](screenshots/praktikum3/25.png)
+
+### 3. Menambahkan Field Tanggal pada Database
+
+- Menambahkan kolom created_at pada tabel artikel
+  ![Gambar 3](screenshots/praktikum3/3.png)
+
+### 4. Membuat Class View Cell
+
+- Membuat folder Cells dan file ArtikelTerkini.php
+  ![Gambar 4](screenshots/praktikum3/4.png)
+
+### 5. Membuat View untuk View Cell
+
+- Membuat folder components dan file artikel_terkini.php
+  ![Gambar 5](screenshots/praktikum3/5.png)
+
+### 6. Improvisasi - Menambahkan Kategori pada Artikel
+
+- Menambahkan kolom kategori dan mengimplementasikan filter berdasarkan kategori
+  ![Gambar 61](screenshots/praktikum3/61.png)
+  ![Gambar 62](screenshots/praktikum3/62.png)
+  ![Gambar 63](screenshots/praktikum3/63.png)
+  ![Gambar 64](screenshots/praktikum3/64.png)
+  ![Gambar 65](screenshots/praktikum3/65.png)
+
+## Jawaban Pertanyaan
+
+### 1. Apa manfaat utama dari penggunaan View Layout dalam pengembangan aplikasi?
+
+Manfaat utama dari penggunaan View Layout dalam pengembangan aplikasi adalah:
+
+1. **Konsistensi Tampilan**: View Layout memastikan semua halaman memiliki struktur dan tampilan yang konsisten.
+2. **Pemisahan Konten dan Layout**: Memisahkan konten spesifik halaman dari struktur layout umum, sehingga kode lebih terorganisir.
+3. **Penggunaan Kembali Kode (Reusability)**: Layout yang sama dapat digunakan oleh banyak halaman tanpa perlu menulis ulang kode.
+4. **Pemeliharaan yang Lebih Mudah**: Perubahan pada layout cukup dilakukan di satu tempat dan akan berlaku untuk semua halaman yang menggunakannya.
+5. **Pengembangan yang Lebih Cepat**: Pengembang dapat fokus pada konten halaman tanpa perlu mengulang-ulang kode layout.
+
+### 2. Jelaskan perbedaan antara View Cell dan View biasa.
+
+Perbedaan antara View Cell dan View biasa:
+
+1. **Fungsi dan Tujuan**:
+
+- **View Biasa**: Digunakan untuk menampilkan halaman lengkap atau bagian dari halaman.
+- **View Cell**: Digunakan untuk membuat komponen UI yang dapat digunakan ulang dan bersifat modular.
+
+2. **Cara Pemanggilan**:
+
+- **View Biasa**: Dipanggil dengan `return view('nama_view', $data)` atau `echo view('nama_view', $data)`.
+- **View Cell**: Dipanggil dengan `<?= view_cell('Namespace\\Class::method', $params) ?>`.
+
+3. **Logika Bisnis**:
+
+- **View Biasa**: Biasanya tidak memiliki logika bisnis, hanya menerima data dari controller.
+- **View Cell**: Dapat memiliki logika bisnis sendiri, seperti mengambil data dari database.
+
+4. **Penggunaan Kembali**:
+
+- **View Biasa**: Dapat digunakan kembali dengan include/extend, tetapi kurang fleksibel.
+- **View Cell**: Dirancang khusus untuk komponen yang digunakan berulang kali di berbagai halaman.
+
+5. **Isolasi**:
+
+- **View Biasa**: Berbagi konteks dengan view yang memanggilnya.
+- **View Cell**: Memiliki konteks tersendiri, terisolasi dari view yang memanggilnya.
+
+### 3. Ubah View Cell agar hanya menampilkan post dengan kategori tertentu.
+
+- Modifikasi method `render()` di class `ArtikelTerkini` untuk menerima parameter kategori:
+  ![Gambar 331](screenshots/praktikum3/331.png)
+- Panggil View Cell dengan parameter kategori di layout:
+  ![Gambar 332](screenshots/praktikum3/332.png)
+
+## Hasil akhir Praktikum 3
+
+![Gambar ss3](screenshots/praktikum3/ss3.png)
+
+# Praktikum 4: Framework Lanjutan (Modul Login)
+
+## Langkah-langkah Praktikum
+
+### 1. Membuat Tabel User
+
+- Membuat tabel user di database lab_ci4
+  ![Gambar 1](screenshots/praktikum4/1.png)
+
+### 2. Membuat Model User
+
+- Membuat file UserModel.php
+  ![Gambar 2](screenshots/praktikum4/2.png)
+
+### 3. Membuat Controller User
+
+- Membuat file User.php dengan method login dan logout
+  ![Gambar 3](screenshots/praktikum4/3.png)
+
+### 4. Membuat View Login
+
+- Membuat file login.php di folder user
+  ![Gambar 41](screenshots/praktikum4/41.png)
+  ![Gambar 42](screenshots/praktikum4/42.png)
+
+### 5. Membuat Database Seeder
+
+- Membuat UserSeeder untuk data dummy
+  ![Gambar 51](screenshots/praktikum4/51.png)
+  ![Gambar 52](screenshots/praktikum4/52.png)
+  ![Gambar 53](screenshots/praktikum4/53.png)
+
+### 6. Menambahkan Auth Filter
+
+- Membuat file Auth.php di folder Filters
+  ![Gambar 61](screenshots/praktikum4/61.png)
+  ![Gambar 62](screenshots/praktikum4/62.png)
+  ![Gambar 63](screenshots/praktikum4/63.png)
+
+### 7. Menambahkan Fungsi Logout
+
+- Menambahkan tombol logout
+  ![Gambar 7](screenshots/praktikum4/71.png)
+
+## Improvisasi yang Dilakukan
+
+1. Menambahkan Halaman Register
+   ![Gambar 111](screenshots/praktikum4/im11.png)
+   ![Gambar 112](screenshots/praktikum4/im12.png)
+   ![Gambar 113](screenshots/praktikum4/im13.png)
+
+2. Menambahkan Dashboard Admin
+   ![Gambar 221](screenshots/praktikum4/im21.png)
+   ![Gambar 222](screenshots/praktikum4/im22.png)
+   ![Gambar 223](screenshots/praktikum4/im23.png)
+   ![Gambar 224](screenshots/praktikum4/im24.png)
+
+3. Memperbaiki tampilan dengan CSS
+   ![Gambar 31](screenshots/praktikum4/im31.png)
+
+## Hasil Akhir Praktikum 4
+
+![Gambar ss1](screenshots/praktikum4/ss1.png)
+![Gambar ss2](screenshots/praktikum4/ss2.png)
+![Gambar ss3](screenshots/praktikum4/ss3.png)
+
+# Praktikum 5: Pagination dan Pencarian
+
+## Langkah-langkah Praktikum
+
+### 1. Membuat Pagination
+
+#### Modifikasi Controller Artikel dan View admin_index.php
+
+![Gambar 1](screenshots/praktikum5/1.png)
+![Gambar 2](screenshots/praktikum5/2.png)
+![Gambar 3](screenshots/praktikum5/3.png)
+
+### 2. Membuat Pencarian
+
+#### Modifikasi method `admin_index` untuk menambahkan fitur pencarian dan link Pagination, lalu tambahkan form pencarian di View.
+
+![Gambar 4](screenshots/praktikum5/4.png)
+![Gambar 5](screenshots/praktikum5/5.png)
+![Gambar 6](screenshots/praktikum5/6.png)
+![Gambar 7](screenshots/praktikum5/7.png)
+
+### 3. Melakukan Improvisasi yaitu : menambahkan fitur pencarian berdasarkan kategori, dan menampilkan jumlah data yang ditemukan.
+
+![Gambar 8](screenshots/praktikum5/8.png)
+![Gambar 9](screenshots/praktikum5/9.png)
+
+### Hasil Akhir Praktikum 5.
+
+![Gambar ss](screenshots/praktikum5/ss.png)
+
+# Praktikum 6: Upload File Gambar
+
+## Langkah-langkah Praktikum
+
+### 1. Modifikasi Method add() pada Controller Artikel
+
+#### Modifikasi Controller Artikel
+
+![Gambar 1](screenshots/praktikum6/1.png)
+
+### 2. Modifikasi file form_add.php
+
+#### Menambahkan field input dan sesuaikan tag form dengan menambahkan ecrypt type.
+
+![Gambar 2](screenshots/praktikum6/2.png)
+
+### 3. Ujicoba file upload dengan mengakses menu tambah artikel.
+
+![Gambar 3](screenshots/praktikum6/31.png)
+![Gambar 4](screenshots/praktikum6/32.png)
+
+### Hasil Akhir Praktikum 6.
+
+![Gambar ss](screenshots/praktikum6/ss6.png)
+
+# Praktikum 7: Relasi Tabel dan Query Builder
+
+## Tujuan
+
+- Memahami konsep relasi antar tabel dalam database
+- Mengimplementasikan relasi One-to-Many
+- Melakukan query dengan join tabel menggunakan Query Builder
+- Menampilkan data dari tabel yang berelasi
+
+## Langkah-langkah Praktikum
+
+### 1. Membuat Tabel Kategori
+
+Saya membuat tabel kategori dengan struktur:
+
+- id_kategori (INT, PRIMARY KEY, AUTO_INCREMENT)
+- nama_kategori (VARCHAR 100)
+- slug_kategori (VARCHAR 100)
 
 ```sql
--- Menambahkan field timestamp dan kategori
-ALTER TABLE artikel 
-ADD COLUMN kategori VARCHAR(50) DEFAULT 'umum',
-ADD INDEX idx_kategori (kategori),
-ADD INDEX idx_status_created (status, created_at);
+CREATE TABLE kategori (
+    id_kategori INT(11) AUTO_INCREMENT,
+    nama_kategori VARCHAR(100) NOT NULL,
+    slug_kategori VARCHAR(100),
+    PRIMARY KEY (id_kategori)
+);
 ```
 
-### 🎨 Refactoring Views
+![Gambar 1](screenshots/praktikum7/1.png)
 
-**Home View** (`app/Views/home.php`)
-```php
-<?= $this->extend('layout/main') ?>
+### 2. Menambahkan Foreign Key ke Tabel Artikel
 
-<?= $this->section('content') ?>
-<div class="container py-5">
-    <!-- Hero Section -->
-    <div class="row mb-5">
-        <div class="col-12">
-            <div class="hero-section bg-primary text-white rounded p-5 text-center">
-                <h1 class="display-4 fw-bold mb-3">Selamat Datang di Portal Berita</h1>
-                <p class="lead">Platform berita terpercaya dengan informasi terkini dan akurat</p>
-                <a href="<?= base_url('/artikel') ?>" class="btn btn-light btn-lg">
-                    <i class="fas fa-newspaper"></i> Baca Artikel
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Latest Articles -->
-    <div class="row">
-        <div class="col-md-8">
-            <h2 class="mb-4">
-                <i class="fas fa-fire text-danger"></i> Artikel Terpopuler
-            </h2>
-            <?= view_cell('ArtikelTerkini::render', ['limit' => 6]) ?>
-        </div>
-        <div class="col-md-4">
-            <h3 class="mb-4">Kategori Populer</h3>
-            <?= view_cell('ArtikelTerkini::render', ['kategori' => 'teknologi', 'limit' => 3]) ?>
-            
-            <div class="mt-4">
-                <?= view_cell('ArtikelTerkini::render', ['kategori' => 'olahraga', 'limit' => 3]) ?>
-            </div>
-        </div>
-    </div>
-</div>
-<?= $this->endSection() ?>
-
-<?= $this->section('scripts') ?>
-<script>
-    // Custom JavaScript untuk home page
-    console.log('Home page loaded successfully');
-</script>
-<?= $this->endSection() ?>
-```
-
-### 📋 Analisis Konseptual
-
-#### Keunggulan View Layout:
-1. **Konsistensi Interface** - Tampilan seragam di seluruh aplikasi
-2. **DRY Principle** - Tidak ada duplikasi kode template
-3. **Maintainability** - Perubahan layout hanya di satu tempat
-4. **Flexibility** - Mudah menambah section baru
-5. **Performance** - Caching template yang optimal
-
-#### Perbandingan View Cell vs View Konvensional:
-
-| Aspek | View Konvensional | View Cell |
-|-------|------------------|-----------|
-| **Reusability** | Terbatas pada satu halaman | Dapat digunakan dimana saja |
-| **Logic Separation** | Logic di controller | Logic terpisah di cell |
-| **Parameter Handling** | Manual via data array | Parameter method yang clean |
-| **Caching** | Manual implementation | Built-in caching support |
-| **Testing** | Sulit untuk unit test | Easy unit testing |
-
-### 📊 Hasil Lab 3
-![Final Result Lab 3](screenshots/praktikum3/ss3.png)
-
----
-
-## Lab 4: Sistem Autentikasi
-
-### 🎯 Objective
-Mengimplementasikan sistem login/logout, proteksi halaman admin, dan manajemen session.
-
-### 🗄️ Database Setup
+Saya menambahkan kolom id_kategori ke tabel artikel dan membuat foreign key constraint:
 
 ```sql
-CREATE TABLE users (
-    id INT(11
+ALTER TABLE artikel
+ADD COLUMN id_kategori INT(11),
+ADD CONSTRAINT fk_kategori_artikel
+FOREIGN KEY (id_kategori) REFERENCES kategori(id_kategori);
+```
+
+![Gambar 1](screenshots/praktikum7/2.png)
+![Gambar 1](screenshots/praktikum7/3.png)
+![Gambar 1](screenshots/praktikum7/4.png)
+
+### 3. Membuat Model Kategori
+
+Saya membuat KategoriModel.php untuk mengelola data kategori:
+
+![Gambar](screenshots/praktikum7/5.png)
+
+### 4. Memodifikasi Model Artikel
+
+Saya menambahkan method getArtikelDenganKategori() untuk melakukan JOIN:
+
+![Gambar](screenshots/praktikum7/6.png)
+
+### 5. Memodifikasi Controller Artikel
+
+Saya mengupdate controller untuk menggunakan relasi tabel:
+
+![Gambar](screenshots/praktikum7/7.png)
+
+### 6. Memodifikasi View
+
+Saya mengupdate semua view untuk menampilkan kategori:
+
+![Gambar](screenshots/praktikum7/8.png)
+![Gambar](screenshots/praktikum7/9.png)
+![Gambar](screenshots/praktikum7/10.png)
+![Gambar](screenshots/praktikum7/11.png)
+![Gambar](screenshots/praktikum7/12.png)
+![Gambar](screenshots/praktikum7/13.png)
+![Gambar](screenshots/praktikum7/14.png)
+
+### 7. Testing
+
+Hasil testing menunjukkan semua fitur berjalan dengan baik:
+![Gambar](screenshots/praktikum7/15.png)
+![Gambar](screenshots/praktikum7/16.png)
+![Gambar](screenshots/praktikum7/17.png)
+![Gambar](screenshots/praktikum7/18.png)
+![Gambar](screenshots/praktikum7/19.png)
+
+## Pertanyaan dan Tugas
+
+### 1. Modifikasi tampilan detail artikel
+
+Saya telah memodifikasi detail.php untuk menampilkan nama kategori artikel.
+
+### 2. Menampilkan daftar kategori di halaman depan
+
+Saya menambahkan widget kategori di sidebar.
+
+### 3. Fungsi menampilkan artikel berdasarkan kategori
+
+Saya membuat method kategori() di controller dan view kategori.php.
+
+### Hasil Praktikum 7
+
+![Gambar](screenshots/praktikum7/ss.png)
+
+# Praktikum 8: AJAX di CodeIgniter 4
+
+## Langkah-langkah Praktikum
+
+### 1. Menambahkan Pustaka jQuery
+
+Saya menambahkan jQuery ke project dengan menyalin file jQuery ke folder `public/assets/js/`.
+
+![Gambar](screenshots/praktikum8/1.png)
+
+### 2. Membuat AJAX Controller
+
+Saya membuat controller baru bernama `AjaxController.php` untuk menangani request AJAX.
+![Gambar](screenshots/praktikum8/2.png)
+
+### 3. Menambahkan Routes
+
+Saya menambahkan routes untuk AJAX di `app/Config/Routes.php`.
+![Gambar](screenshots/praktikum8/3.png)
+
+### 4. Membuat View
+
+Saya membuat view untuk menampilkan data artikel dengan AJAX.
+![Gambar](screenshots/praktikum8/4.png)
+![Gambar](screenshots/praktikum8/5.png)
+
+### 5. Testing
+
+Hasil testing menunjukkan semua fitur AJAX berjalan dengan baik
+
+### 6. Improvisasi
+
+Saya menambahkan fitur pencarian dan filter kategori dengan AJAX
+
+## Pertanyaan dan Tugas
+
+### 1. Menambahkan Fungsi Tambah dan Ubah Data
+
+Saya telah menambahkan fungsi untuk menambah dan mengubah data artikel menggunakan AJAX.
+
+### 2. Improvisasi
+
+Saya menambahkan fitur pencarian dan filter kategori untuk meningkatkan fungsionalitas aplikasi.
+
+## Hasil Praktikum 8
+
+![Gambar](screenshots/praktikum8/ss.png)
+
+# Praktikum 9: Implementasi AJAX Pagination dan Search
+
+## Langkah-langkah Praktikum
+
+### 1. Persiapan Data
+
+Saya menambahkan lebih banyak data artikel untuk testing pagination:
+
+![Gambar](screenshots/praktikum9/1.png)
+
+### 2. Modifikasi Controller Artikel
+
+Saya mengupdate method admin_index() untuk mendukung AJAX request:
+
+![Gambar](screenshots/praktikum9/2.png)
+
+### 3. Modifikasi View admin_index.php
+
+Saya mengubah view untuk menggunakan AJAX dengan fitur:
+
+- Search real-time
+- Filter kategori
+- Pagination tanpa reload
+- Sorting kolom
+
+![Gambar](screenshots/praktikum9/3.png)
+
+### 4. Testing Fitur
+
+Hasil testing menunjukkan semua fitur AJAX berjalan dengan baik
+
+## Pertanyaan dan Tugas
+
+Saya mengimplementasikan sorting untuk kolom ID, Judul, dan Status.
+
+## Hasil Praktikum 9
+
+Praktikum ini berhasil mengimplementasikan AJAX pagination dan search yang meningkatkan user experience dengan:
+
+- Tidak ada reload halaman
+- Response yang cepat
+- Interface yang responsif
+- Fitur sorting dan export tambahan
+  ![Gambar](screenshots/praktikum9/ss.png)
+
+# Praktikum 10: API
+
+## Langkah-langkah Praktikum
+
+### 1. Persiapan
+
+Menginstall postman, membuat database dan mengatur konfigurasinya
+
+![Gambar](screenshots/praktikum10/1.png)
+
+### 2. Membuat REST Controller
+
+- Membuat file `Post.php` di `app/Controllers` untuk menangani operasi CRUD.
+- Kode controller: (lihat file `Post.php`).
+  ![Gambar](screenshots/praktikum10/2.png)
+
+### 4. Membuat Routing
+
+- Menambahkan rute di `app/Config/Routes.php`:
+  ```php
+  $routes->resource('post');
+  ```
+  ![Gambar](screenshots/praktikum10/3.png)
+- Memeriksa rute dengan perintah:
+  ```bash
+  php spark routes
+  ```
+  ![Gambar](screenshots/praktikum10/4.png)
+
+### 5. Pengujian dengan Postman
+
+- **Menampilkan semua data (GET)**:
+  - URL: `http://localhost:8080/post`
+    ![Gambar](screenshots/praktikum10/5.png)
+- **Menambahkan data (POST)**:
+  - URL: `http://localhost:8080/post`
+  - Body: `judul=Artikel Baru&isi=Ini adalah isi artikel baru`
+    ![Gambar](screenshots/praktikum10/6.png)
+- **Menampilkan data berdasarkan ID (GET)**:
+  - URL: `http://localhost:8080/post/1`
+    ![Gambar](screenshots/praktikum10/7.png)
+- **Mengubah data (PUT)**:
+  - URL: `http://localhost:8080/post/2`
+  - Body: `judul=Artikel Diubah&isi=Ini adalah isi artikel yang diubah`
+    ![Gambar](screenshots/praktikum10/8.png)
+- **Menghapus data (DELETE)**:
+  - URL: `http://localhost:8080/post/2`
+    ![Gambar](screenshots/praktikum10/9.png)
+
+## Kesimpulan
+
+Praktikum ini berhasil mengimplementasikan REST API dengan CodeIgniter 4 untuk operasi CRUD. API diuji menggunakan Postman, dan semua fungsi (GET, POST, PUT, DELETE) berjalan dengan baik.
+#
