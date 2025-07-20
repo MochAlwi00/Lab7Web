@@ -620,4 +620,5 @@ Praktikum ini berhasil mengimplementasikan REST API dengan CodeIgniter 4 untuk o
 >>>>>>> 4801c5da7b1ae85b3b3b5053bfd27db4262eb7e1
 #   L a b 7 W e b .  
  #   L a b 7 W e b  
+ #   L a b 7 w e b  
  
