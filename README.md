@@ -611,6 +611,12 @@ Menginstall postman, membuat database dan mengatur konfigurasinya
 ## Kesimpulan
 
 Praktikum ini berhasil mengimplementasikan REST API dengan CodeIgniter 4 untuk operasi CRUD. API diuji menggunakan Postman, dan semua fungsi (GET, POST, PUT, DELETE) berjalan dengan baik.
+<<<<<<< HEAD
 #   L a b 7 W e b  
  #   L a b 7 W e b .  
+ 
+=======
+#
+>>>>>>> 4801c5da7b1ae85b3b3b5053bfd27db4262eb7e1
+#   L a b 7 W e b .  
  
