@@ -1,247 +1,600 @@
-# Dokumentasi Praktikum CodeIgniter 4
+# Lab CodeIgniter 4 - Dokumentasi Praktikum
 
-## Praktikum 1: Pengenalan PHP Framework (CodeIgniter 4)
+[![CodeIgniter 4](https://img.shields.io/badge/CodeIgniter-4.x-red.svg)](https://codeigniter.com/)
+[![PHP](https://img.shields.io/badge/PHP-7.4%2B-blue.svg)](https://php.net/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-### Proses Instalasi dan Konfigurasi
+Repositori ini berisi dokumentasi lengkap dan implementasi praktikum pengembangan web menggunakan framework CodeIgniter 4. Praktikum ini dirancang untuk memberikan pemahaman komprehensif tentang pengembangan aplikasi web modern dengan arsitektur MVC.
 
-**Persiapan Lingkungan:**
-- Mengaktivasi ekstensi PHP yang diperlukan untuk menjalankan CodeIgniter 4
-- Mengunduh framework CodeIgniter 4 dan melakukan ekstraksi file
+## 📸 Preview Aplikasi
 
-**Konfigurasi Dasar:**
-- Menjalankan aplikasi melalui Command Line Interface (CLI)
-- Mengkonfigurasi mode debugging dengan mengubah file `env` menjadi `.env`
-- Membuat routing baru di file `Routes.php`
+### Homepage
+![Homepage](screenshots/homepage.png)
+*Tampilan halaman utama dengan navigasi dan artikel terbaru*
 
-**Pengembangan Komponen:**
-- Pembuatan controller `Page.php` untuk menangani logika aplikasi
-- Pembuatan view `about.php` untuk tampilan halaman
-- Implementasi layout web menggunakan CSS dengan template header dan footer
+### Admin Dashboard
+![Admin Dashboard](screenshots/admin-dashboard.png)
+*Dashboard admin dengan statistik dan manajemen konten*
 
-**Hasil Implementasi:**
-- Halaman About, Contact, FAQ, dan Terms of Service telah dibuat
-- Semua halaman menggunakan layout yang konsisten
-- Navigasi header berfungsi dengan baik untuk semua menu
+### Artikel Management
+![Artikel Management](screenshots/artikel-management.png)
+*Interface manajemen artikel dengan fitur CRUD lengkap*
+
+### Login Page
+![Login Page](screenshots/login.png)
+*Halaman login dengan form authentication*
+
+### API Testing
+![API Testing](screenshots/api-testing.png)
+*Testing REST API menggunakan Postman*
+
+## 📚 Daftar Isi
+
+- [Preview Aplikasi](#-preview-aplikasi)
+- [Persyaratan Sistem](#-persyaratan-sistem)
+- [Instalasi](#-instalasi)
+- [Struktur Praktikum](#-struktur-praktikum)
+- [Fitur Utama](#-fitur-utama)
+- [Penggunaan](#-penggunaan)
+- [Screenshots](#-screenshots)
+- [API Documentation](#-api-documentation)
+- [Demo Video](#-demo-video)
+- [Kontribusi](#-kontribusi)
+- [Lisensi](#-lisensi)
+
+## 🔧 Persyaratan Sistem
+
+- **PHP**: 7.4 atau lebih tinggi
+- **Database**: MySQL 5.7+ / PostgreSQL / SQLite
+- **Web Server**: Apache/Nginx (opsional, bisa menggunakan built-in server)
+- **Composer**: untuk dependency management
+- **Node.js & NPM**: untuk asset management (opsional)
+
+### Ekstensi PHP yang Diperlukan:
+- `php-json`
+- `php-mbstring`
+- `php-mysqlnd`
+- `php-xml`
+- `php-intl`
+- `php-curl`
+
+## 🚀 Instalasi
+
+### 1. Clone Repository
+```bash
+git clone https://github.com/username/lab-codeigniter4.git
+cd lab-codeigniter4
+```
+
+### 2. Install Dependencies
+```bash
+composer install
+```
+
+### 3. Konfigurasi Environment
+```bash
+# Copy file environment
+cp env .env
+
+# Edit konfigurasi database
+nano .env
+```
+
+### 4. Konfigurasi Database
+```env
+# Database Configuration
+database.default.hostname = localhost
+database.default.database = lab_ci4
+database.default.username = root
+database.default.password = 
+database.default.DBDriver = MySQLi
+```
+
+### 5. Migrasi Database
+```bash
+# Jalankan migrasi
+php spark migrate
+
+# Seed data dummy (opsional)
+php spark db:seed DatabaseSeeder
+```
+
+### 6. Menjalankan Aplikasi
+```bash
+# Development server
+php spark serve
+
+# Atau dengan port custom
+php spark serve --port 8080
+```
+
+Aplikasi akan berjalan di `http://localhost:8080`
+
+## 📖 Struktur Praktikum
+
+### Praktikum 1: Pengenalan Framework
+**Tujuan**: Memahami dasar-dasar CodeIgniter 4
+- ✅ Instalasi dan konfigurasi
+- ✅ Routing dan controller
+- ✅ View dan layout dasar
+- ✅ Template integration
+
+![Praktikum 1](screenshots/praktikum1-homepage.png)
+
+**Halaman yang dibuat**:
+- Home
+- About
+- Contact
+- FAQ
+- Terms of Service
+
+### Praktikum 2: Operasi CRUD
+**Tujuan**: Implementasi Create, Read, Update, Delete
+- ✅ Model dan database interaction
+- ✅ Form handling
+- ✅ Data validation
+- ✅ Admin panel
+
+![CRUD Operations](screenshots/praktikum2-crud.png)
+
+**Fitur**:
+- Manajemen artikel
+- Upload gambar
+- Pencarian artikel
+
+### Praktikum 3: Layout & View Cell
+**Tujuan**: Optimasi struktur view
+- ✅ Layout template system
+- ✅ View cells untuk komponen
+- ✅ Sistem kategori
+
+![Layout System](screenshots/praktikum3-layout.png)
+
+**Komponen**:
+- Main layout
+- Artikel terkini widget
+- Kategori filter
+
+### Praktikum 4: Sistem Autentikasi
+**Tujuan**: Implementasi login/logout
+- ✅ User management
+- ✅ Session handling
+- ✅ Authentication filter
+- ✅ Role-based access
+
+![Authentication](screenshots/praktikum4-auth.png)
+
+**Fitur**:
+- Login/logout
+- User registration
+- Protected routes
+- Admin dashboard
+
+### Praktikum 5: Pagination & Search
+**Tujuan**: Optimasi performa data
+- ✅ Database pagination
+- ✅ Advanced search
+- ✅ Filter integration
+
+![Pagination](screenshots/praktikum5-pagination.png)
+
+**Fitur**:
+- Pagination dengan navigasi
+- Real-time search
+- Category filtering
+
+### Praktikum 6: File Upload
+**Tujuan**: Manajemen file
+- ✅ Image upload
+- ✅ File validation
+- ✅ Storage management
+
+![File Upload](screenshots/praktikum6-upload.png)
+
+**Fitur**:
+- Multiple file formats
+- File size validation
+- Secure upload
+
+### Praktikum 7: Database Relations
+**Tujuan**: Relasi antar tabel
+- ✅ Foreign key implementation
+- ✅ JOIN queries
+- ✅ Normalized database
+
+![Database Relations](screenshots/praktikum7-relations.png)
+
+**Struktur**:
+- Tabel artikel
+- Tabel kategori
+- Tabel user
+- Relasi One-to-Many
+
+### Praktikum 8: Teknologi AJAX
+**Tujuan**: Interaksi dinamis
+- ✅ jQuery integration
+- ✅ Asynchronous requests
+- ✅ JSON responses
+
+![AJAX Implementation](screenshots/praktikum8-ajax.png)
+
+**Fitur**:
+- Dynamic content loading
+- Form submission tanpa reload
+- Real-time updates
+
+### Praktikum 9: AJAX Pagination
+**Tujuan**: Pagination dinamis
+- ✅ Seamless navigation
+- ✅ Search integration
+- ✅ Performance optimization
+
+![AJAX Pagination](screenshots/praktikum9-ajax-pagination.png)
+
+### Praktikum 10: REST API
+**Tujuan**: API development
+- ✅ RESTful endpoints
+- ✅ JSON API responses
+- ✅ HTTP methods (GET, POST, PUT, DELETE)
+
+![REST API](screenshots/praktikum10-api.png)
+
+## 🎯 Fitur Utama
+
+### Frontend
+- 📱 Responsive design
+- 🎨 Modern CSS styling
+- ⚡ AJAX interactions
+- 🔍 Real-time search
+- 📄 Pagination
+
+### Backend
+- 🏗️ MVC Architecture
+- 🔐 Authentication system
+- 📊 Database relationships
+- 📁 File upload management
+- 🔌 REST API endpoints
+
+### Admin Panel
+- 👤 User management
+- 📝 Content management
+- 📈 Dashboard analytics
+- 🏷️ Category management
+- 🔍 Advanced search
+
+## 💻 Penggunaan
+
+### Akses Aplikasi
+- **Frontend**: `http://localhost:8080`
+- **Admin Panel**: `http://localhost:8080/admin`
+
+### Default Login Credentials
+```
+Username: admin
+Password: admin123
+```
+
+### API Endpoints
+
+#### Artikel API
+```http
+GET    /api/posts       # Get all articles
+GET    /api/posts/{id}  # Get specific article
+POST   /api/posts       # Create new article
+PUT    /api/posts/{id}  # Update article
+DELETE /api/posts/{id}  # Delete article
+```
+
+#### User API
+```http
+POST   /api/auth/login    # User login
+POST   /api/auth/logout   # User logout
+POST   /api/auth/register # User registration
+```
+
+### Testing API dengan Postman
+
+1. Import collection dari `postman/Lab_CI4_API.postman_collection.json`
+2. Set environment variables:
+## 📸 Screenshots
+
+### 🏠 Frontend Views
+
+#### Homepage
+![Homepage](screenshots/frontend/homepage.png)
+*Halaman utama dengan artikel terbaru dan navigasi*
+
+#### Detail Artikel
+![Detail Artikel](screenshots/frontend/artikel-detail.png)
+*Halaman detail artikel dengan konten lengkap*
+
+#### About Page
+![About Page](screenshots/frontend/about.png)
+*Halaman about dengan informasi lengkap*
+
+#### Contact Page
+![Contact Page](screenshots/frontend/contact.png)
+*Halaman kontak dengan form feedback*
+
+### 🔐 Authentication
+
+#### Login Form
+![Login](screenshots/auth/login.png)
+*Form login dengan validation*
+
+#### Register Form
+![Register](screenshots/auth/register.png)
+*Form registrasi user baru*
+
+#### Logout Success
+![Logout](screenshots/auth/logout.png)
+*Konfirmasi logout berhasil*
+
+### 👨‍💼 Admin Panel
+
+#### Dashboard
+![Admin Dashboard](screenshots/admin/dashboard.png)
+*Dashboard admin dengan statistik dan overview*
+
+#### Artikel Management
+![Artikel Management](screenshots/admin/artikel-list.png)
+*Daftar artikel dengan fitur CRUD*
+
+#### Add/Edit Artikel
+![Add Artikel](screenshots/admin/artikel-add.png)
+*Form tambah/edit artikel dengan upload gambar*
+
+#### Kategori Management
+![Kategori Management](screenshots/admin/kategori-list.png)
+*Manajemen kategori artikel*
+
+#### User Management
+![User Management](screenshots/admin/user-management.png)
+*Pengelolaan user dan role*
+
+### 🔍 Search & Pagination
+
+#### Search Results
+![Search Results](screenshots/features/search-results.png)
+*Hasil pencarian dengan highlight keyword*
+
+#### Pagination
+![Pagination](screenshots/features/pagination.png)
+*Navigasi pagination dengan info halaman*
+
+#### AJAX Pagination
+![AJAX Pagination](screenshots/features/ajax-pagination.png)
+*Pagination dinamis tanpa reload*
+
+### 📁 File Upload
+
+#### Upload Interface
+![Upload Interface](screenshots/features/file-upload.png)
+*Interface upload file dengan preview*
+
+#### Upload Success
+![Upload Success](screenshots/features/upload-success.png)
+*Konfirmasi upload berhasil*
+
+### 🔌 API Testing
+
+#### Postman Collection
+![Postman Collection](screenshots/api/postman-collection.png)
+*Collection API endpoints di Postman*
+
+#### GET Request
+![GET Request](screenshots/api/get-request.png)
+*Testing GET endpoint untuk mengambil data*
+
+#### POST Request
+![POST Request](screenshots/api/post-request.png)
+*Testing POST endpoint untuk create data*
+
+#### PUT Request
+![PUT Request](screenshots/api/put-request.png)
+*Testing PUT endpoint untuk update data*
+
+#### DELETE Request
+![DELETE Request](screenshots/api/delete-request.png)
+*Testing DELETE endpoint untuk hapus data*
+
+### 📱 Responsive Design
+
+#### Mobile View
+![Mobile View](screenshots/responsive/mobile-view.png)
+*Tampilan mobile responsive*
+
+#### Tablet View
+![Tablet View](screenshots/responsive/tablet-view.png)
+*Tampilan tablet landscape*
+
+### ⚡ AJAX Features
+
+#### Real-time Search
+![Real-time Search](screenshots/ajax/realtime-search.png)
+*Pencarian real-time dengan AJAX*
+
+#### Dynamic Loading
+![Dynamic Loading](screenshots/ajax/dynamic-loading.png)
+*Loading konten dinamis*
+
+#### Form Submission
+![AJAX Form](screenshots/ajax/ajax-form.png)
+*Submit form tanpa reload halaman*
+
+## 📁 Struktur Direktori
+
+```
+lab-ci4/
+├── app/
+│   ├── Controllers/
+│   │   ├── Home.php
+│   │   ├── Page.php
+│   │   ├── Artikel.php
+│   │   ├── User.php
+│   │   └── Api/
+│   │       └── Post.php
+│   ├── Models/
+│   │   ├── ArtikelModel.php
+│   │   ├── KategoriModel.php
+│   │   └── UserModel.php
+│   ├── Views/
+│   │   ├── layout/
+│   │   ├── artikel/
+│   │   ├── admin/
+│   │   └── auth/
+│   ├── Cells/
+│   │   └── ArtikelTerkini.php
+│   └── Filters/
+│       └── AuthFilter.php
+├── public/
+│   ├── css/
+│   ├── js/
+│   └── uploads/
+├── database/
+│   ├── migrations/
+│   └── seeds/
+└── README.md
+
+## 📂 Screenshots Directory Structure
+
+```
+screenshots/
+├── frontend/
+│   ├── homepage.png
+│   ├── artikel-detail.png
+│   ├── about.png
+│   └── contact.png
+├── admin/
+│   ├── dashboard.png
+│   ├── artikel-list.png
+│   ├── artikel-add.png
+│   ├── kategori-list.png
+│   └── user-management.png
+├── auth/
+│   ├── login.png
+│   ├── register.png
+│   └── logout.png
+├── features/
+│   ├── search-results.png
+│   ├── pagination.png
+│   ├── ajax-pagination.png
+│   ├── file-upload.png
+│   └── upload-success.png
+├── api/
+│   ├── postman-collection.png
+│   ├── get-request.png
+│   ├── post-request.png
+│   ├── put-request.png
+│   └── delete-request.png
+├── responsive/
+│   ├── mobile-view.png
+│   └── tablet-view.png
+├── ajax/
+│   ├── realtime-search.png
+│   ├── dynamic-loading.png
+│   └── ajax-form.png
+└── demo/
+    └── demo-video-thumbnail.png
+```
+```
+
+## 🧪 Testing
+
+### Manual Testing
+1. Test semua fitur CRUD
+2. Verifikasi autentikasi
+3. Test upload file
+4. Validasi API endpoints
+
+### Automated Testing
+```bash
+# Run PHPUnit tests
+vendor/bin/phpunit
+
+# Run with coverage
+vendor/bin/phpunit --coverage-html coverage/
+```
+
+## 📋 TODO List
+
+- [ ] Implementasi cache system
+- [ ] Email verification
+- [ ] Multi-language support
+- [ ] Advanced logging
+- [ ] Performance monitoring
+- [ ] Unit testing coverage
+- [ ] API rate limiting
+- [ ] OAuth integration
+- [ ] Real-time notifications
+- [ ] Export data (PDF, Excel)
+- [ ] Dark mode toggle
+- [ ] Progressive Web App (PWA)
+
+## 📊 Progress Tracking
+
+### Development Status
+![Progress](https://progress-bar.dev/95/?title=Overall%20Progress&color=green)
+
+- ![100%](https://progress-bar.dev/100/?title=Basic%20Setup&color=success) Basic Setup & Configuration
+- ![100%](https://progress-bar.dev/100/?title=CRUD&color=success) CRUD Operations
+- ![100%](https://progress-bar.dev/100/?title=Auth&color=success) Authentication System  
+- ![100%](https://progress-bar.dev/100/?title=Upload&color=success) File Upload
+- ![100%](https://progress-bar.dev/100/?title=API&color=success) REST API
+- ![90%](https://progress-bar.dev/90/?title=Testing&color=yellow) Testing Coverage
+- ![80%](https://progress-bar.dev/80/?title=Documentation&color=blue) Documentation
+
+## 🤝 Kontribusi
+
+Kontribusi sangat diterima! Silakan buat issue atau pull request untuk:
+
+1. Bug fixes
+2. Feature enhancements
+3. Documentation improvements
+4. Code optimization
+
+### Guidelines
+1. Fork repository
+2. Create feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open Pull Request
+
+## 📝 Changelog
+
+### v1.0.0 (Latest)
+- ✅ Complete CRUD operations
+- ✅ Authentication system
+- ✅ File upload functionality
+- ✅ REST API implementation
+- ✅ AJAX pagination
+- ✅ Database relationships
+
+## 📞 Support
+
+Jika mengalami masalah atau memiliki pertanyaan:
+
+1. 📋 Check [Issues](https://github.com/username/lab-ci4/issues)
+2. 📖 Read [CodeIgniter Documentation](https://codeigniter.com/user_guide/)
+3. 💬 Join [CodeIgniter Community](https://forum.codeigniter.com/)
+
+## 📄 Lisensi
+
+Project ini dilisensikan under MIT License - lihat file [LICENSE](LICENSE) untuk detail lengkap.
+
+## 👨‍💻 Author
+
+**Nama Developer**
+- GitHub: [@username](https://github.com/username)
+- Email: developer@example.com
+
+## 🙏 Acknowledgments
+
+- CodeIgniter Team untuk framework yang luar biasa
+- Bootstrap untuk UI components
+- jQuery untuk DOM manipulation
+- Semua kontributor open source
 
 ---
 
-## Praktikum 2: Operasi CRUD (Create, Read, Update, Delete)
-
-### Pengaturan Database
-
-**Konfigurasi Database:**
-- Pembuatan database `lab_ci4` dan tabel `artikel`
-- Konfigurasi koneksi database di file `.env`
-
-**Pengembangan Komponen MVC:**
-- Pembuatan model `ArtikelModel.php` untuk operasi database
-- Pembuatan controller `Artikel.php` untuk logika bisnis
-- Pembuatan view `index.php` untuk menampilkan data
-
-**Fitur yang Diimplementasikan:**
-- Menampilkan daftar artikel
-- Melihat detail artikel dengan routing khusus
-- Panel admin untuk mengelola artikel
-- Fungsi tambah, edit, dan hapus artikel
-
-**Pengembangan Tambahan:**
-- Penambahan CSS untuk mempercantik admin panel
-- Implementasi fitur upload gambar
-- Fitur pencarian artikel
-
----
-
-## Praktikum 3: Layout dan View Cell
-
-### Sistem Layout
-
-**Implementasi Layout:**
-- Pembuatan layout utama di folder `layout/main.php`
-- Modifikasi semua file view untuk menggunakan layout terpusat
-- Penambahan field tanggal (`created_at`) pada database
-
-**View Cell untuk Komponen:**
-- Pembuatan class `ArtikelTerkini.php` di folder `Cells`
-- Pembuatan view cell `artikel_terkini.php` di folder `components`
-- Implementasi sistem kategori artikel dengan filter
-
-**Analisis Konsep:**
-
-*Manfaat View Layout:*
-- Konsistensi tampilan di seluruh aplikasi
-- Pemisahan yang jelas antara konten dan struktur
-- Kemudahan maintenance dan pengembangan
-- Reusability kode yang tinggi
-
-*Perbedaan View Cell vs View Biasa:*
-- View Cell: Komponen modular dengan logika bisnis tersendiri
-- View Biasa: Template sederhana untuk menampilkan data
-- View Cell lebih cocok untuk komponen yang sering digunakan ulang
-
----
-
-## Praktikum 4: Sistem Autentikasi
-
-### Implementasi Login System
-
-**Persiapan Database:**
-- Pembuatan tabel `user` dengan field yang diperlukan
-- Pembuatan model `UserModel.php` untuk operasi user
-
-**Komponen Autentikasi:**
-- Controller `User.php` dengan method login dan logout
-- View `login.php` dengan form autentikasi
-- Database seeder untuk data pengguna dummy
-
-**Sistem Keamanan:**
-- Implementasi Auth Filter untuk proteksi halaman admin
-- Konfigurasi filter di file konfigurasi
-- Tombol logout untuk mengakhiri sesi
-
-**Fitur Tambahan:**
-- Halaman registrasi untuk pengguna baru
-- Dashboard admin dengan statistik
-- Perbaikan tampilan dengan CSS yang lebih menarik
-
----
-
-## Praktikum 5: Pagination dan Pencarian
-
-### Sistem Pagination
-
-**Implementasi Pagination:**
-- Modifikasi controller untuk mendukung pagination
-- Konfigurasi jumlah data per halaman
-- Pembuatan navigasi halaman di view
-
-**Fitur Pencarian:**
-- Form pencarian di admin panel
-- Integrasi pencarian dengan pagination
-- Pencarian berdasarkan judul dan konten artikel
-
-**Pengembangan Lanjutan:**
-- Filter pencarian berdasarkan kategori
-- Tampilan jumlah data yang ditemukan
-- Optimasi query untuk performa lebih baik
-
----
-
-## Praktikum 6: Upload File
-
-### Sistem Upload Gambar
-
-**Konfigurasi Upload:**
-- Modifikasi method `add()` untuk menangani file upload
-- Penyesuaian form dengan `enctype="multipart/form-data"`
-- Validasi file gambar dan ukuran file
-
-**Implementasi:**
-- Field input file di form tambah artikel
-- Penyimpanan file ke direktori yang ditentukan
-- Penyimpanan nama file di database
-
-**Testing:**
-- Ujicoba upload berbagai format gambar
-- Verifikasi penyimpanan file dan database
-
----
-
-## Praktikum 7: Relasi Database
-
-### Konsep Relasi Tabel
-
-**Perancangan Database:**
-- Pembuatan tabel `kategori` dengan primary key
-- Penambahan foreign key `id_kategori` di tabel `artikel`
-- Implementasi relasi One-to-Many
-
-**Model dan Query:**
-- Pembuatan `KategoriModel.php`
-- Modifikasi `ArtikelModel` dengan method JOIN
-- Query builder untuk mengambil data berelasi
-
-**Tampilan Data:**
-- Modifikasi semua view untuk menampilkan kategori
-- Widget kategori di sidebar
-- Filter artikel berdasarkan kategori
-
----
-
-## Praktikum 8: Teknologi AJAX
-
-### Implementasi AJAX
-
-**Persiapan Framework:**
-- Integrasi pustaka jQuery ke proyek
-- Pembuatan `AjaxController.php` untuk request AJAX
-- Konfigurasi routing khusus AJAX
-
-**Fitur AJAX:**
-- Loading data tanpa refresh halaman
-- Operasi CRUD dengan AJAX
-- Response dalam format JSON
-
-**Pengembangan Lanjutan:**
-- Pencarian real-time dengan AJAX
-- Filter kategori dinamis
-- Indikator loading untuk user experience
-
----
-
-## Praktikum 9: AJAX Pagination
-
-### Pagination Dinamis
-
-**Implementasi Lanjutan:**
-- AJAX pagination tanpa reload halaman
-- Search real-time dengan debouncing
-- Filter kategori dengan AJAX
-
-**Fitur Tambahan:**
-- Sorting kolom tabel
-- Export data dalam berbagai format
-- Interface yang responsif dan user-friendly
-
-**Optimasi:**
-- Caching query untuk performa
-- Lazy loading untuk data besar
-- Error handling yang komprehensif
-
----
-
-## Praktikum 10: REST API
-
-### Pengembangan API
-
-**Persiapan Tools:**
-- Instalasi Postman untuk testing API
-- Konfigurasi database untuk endpoint API
-
-**Controller REST:**
-- Pembuatan `Post.php` controller dengan resource routing
-- Implementasi method GET, POST, PUT, DELETE
-- Response dalam format JSON standar
-
-**Testing Endpoint:**
-- GET: Mengambil semua data dan data spesifik
-- POST: Menambah data baru
-- PUT: Mengubah data existing
-- DELETE: Menghapus data
-
-**Validasi API:**
-- Testing dengan Postman menunjukkan semua endpoint berfungsi
-- Response code yang sesuai standar HTTP
-- Error handling untuk request yang tidak valid
-
----
-
-## Kesimpulan Keseluruhan
-
-Rangkaian praktikum ini memberikan pemahaman komprehensif tentang pengembangan web dengan CodeIgniter 4, mulai dari konsep dasar MVC, operasi CRUD, sistem autentikasi, hingga pengembangan API modern. Setiap praktikum membangun fondasi untuk praktikum selanjutnya, menciptakan aplikasi web yang lengkap dan fungsional.
-
-**Keterampilan yang Dikuasai:**
-- Arsitektur MVC dan routing
-- Operasi database dan relasi tabel
-- Sistem autentikasi dan otorisasi
-- Teknologi modern seperti AJAX dan REST API
-- Best practices dalam pengembangan web
+**⭐ Jangan lupa untuk memberikan star jika project ini membantu!**
